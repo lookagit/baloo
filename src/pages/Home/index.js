@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import withSocket, { setSocketConstructor, setSocketBase } from 'react-with-socket';
 
 setSocketConstructor(io);
-setSocketBase('http://localhost:3212');
+setSocketBase('https://baloo-work.herokuapp.com');
 
 const HomePage = withSocket({
   initialState: {

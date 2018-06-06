@@ -12,11 +12,11 @@ const DIST_DIR = path.resolve(__dirname, '..', 'public')
 
 io.on('connection', (socket) => {
   socket.on('message', (data) => {
-    console.log('JA SAM DATA', data);
-    return "CAO"
+    console.log('DATA ', data);
+    return null;
   });
   socket.on('my other event', (data) => {
-    console.log(data);
+    console.log('DATA ', data);
   });
 });
 
@@ -43,7 +43,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'))
 })
 
-app.listen(PORT, (error) => {
+server.listen(PORT, (error) => {
   invariant(!error, 'Something failed: ', error)
   console.info('Express is listening on PORT %s.', PORT)
 })
