@@ -21,6 +21,9 @@ const HomePage = withSocket({
   }),
 })(({ messages, sendMessage }) => (
   <div>
+    <h2>
+      Baloo SOON!
+    </h2>
     <ul>
       {
         messages.map((message, i) => (

@@ -1,6 +1,6 @@
 {
-  "short_name": "PWA React",
-  "name": "React PWA",
+  "short_name": "Baloo",
+  "name": "Baloo app",
   "start_url": "./index.html",
   "icons": [
     {
