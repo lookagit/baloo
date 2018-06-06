@@ -3,11 +3,23 @@ const express = require('express')
 const compression = require('compression')
 const invariant = require('invariant')
 
+const app = express()
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 
 const PORT = process.env.PORT || 8080
 const DIST_DIR = path.resolve(__dirname, '..', 'public')
 
-const app = express()
+io.on('connection', (socket) => {
+  socket.on('message', (data) => {
+    console.log('JA SAM DATA', data);
+    return "CAO"
+  });
+  socket.on('my other event', (data) => {
+    console.log(data);
+  });
+});
+
 
 // require https
 app.use((req, res, next) => {

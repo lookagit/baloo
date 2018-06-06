@@ -1,30 +1,36 @@
 import React from 'react'
+import io from 'socket.io-client';
+import withSocket, { setSocketConstructor, setSocketBase } from 'react-with-socket';
 
+setSocketConstructor(io);
+setSocketBase('http://localhost:3212');
 
-const HomePage = () => (
-  <section>
-    <h2>React</h2>
-    <p>
-      Simple progressive web app that takes advantage of new technologies
-      to bring the best of mobile sites & native apps to users.
-    </p>
-    <b>Uses:</b>
+const HomePage = withSocket({
+  initialState: {
+    messages: [],
+  },
+  mapData: () => ({
+    // listen to message events and append the incoming message to our list of messages
+    message: (props, message) => ({
+      messages: [...props.messages, message],
+    }),
+  }),
+  mapEmit: emit => ({
+    // define an action creator to send data through the socket
+    sendMessage: message => emit('message', message),
+  }),
+})(({ messages, sendMessage }) => (
+  <div>
     <ul>
-      <li>Workbox (workbox-webpack-plugin)</li>
-      <li>Webpack</li>
-      <li>React</li>
-      <li>React Router</li>
-      <li>Redux</li>
+      {
+        messages.map((message, i) => (
+          <li key={i}>{ message }</li>
+        ))
+      }
     </ul>
-    <p>
-      See project repo on github:
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://github.com/developer239/workbox-webpack-react"
-      > https://github.com/developer239/workbox-webpack-react</a>
-    </p>
-  </section>
-)
+    <button onClick={() => sendMessage('Some text!')}>Send a message!</button>
+  </div>
+))
+
 
 export default HomePage

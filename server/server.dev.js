@@ -6,11 +6,24 @@ import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import webpackDevConfig from '../webpack/webpack.dev.babel'
 
+const app = express()
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+
+server.listen(3212);
 
 const PORT = 3000
 const DIST_DIR = path.resolve(__dirname, '..', 'public')
 
-const app = express()
+io.on('connection', (socket) => {
+  socket.on('message', (data) => {
+    console.log('JA SAM DATA', data);
+    return "CAO"
+  });
+  socket.on('my other event', (data) => {
+    console.log(data);
+  });
+});
 
 const compiler = webpack(webpackDevConfig)
 app.use(webpackDevMiddleware(compiler, {
