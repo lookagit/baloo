@@ -1,9 +1,10 @@
 import React from 'react'
 import io from 'socket.io-client';
 import withSocket, { setSocketConstructor, setSocketBase } from 'react-with-socket';
+import CryptoJS from 'crypto-js';
 
 setSocketConstructor(io);
-setSocketBase('https://baloo-work.herokuapp.com');
+setSocketBase('http://localhost:3212');
 
 const HomePage = withSocket({
   initialState: {
@@ -17,7 +18,10 @@ const HomePage = withSocket({
   }),
   mapEmit: emit => ({
     // define an action creator to send data through the socket
-    sendMessage: message => emit('message', message),
+    sendMessage: (message) => {
+      let ciphertext = CryptoJS.AES.encrypt(message, 'secret key 123');
+      emit('message', ciphertext.toString());
+    }
   }),
 })(({ messages, sendMessage }) => (
   <div>

@@ -4,6 +4,7 @@ import webpack from 'webpack'
 import invariant from 'invariant'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
+import CryptoJS from 'crypto-js';
 import webpackDevConfig from '../webpack/webpack.dev.babel'
 
 const app = express()
@@ -18,7 +19,9 @@ const DIST_DIR = path.resolve(__dirname, '..', 'public')
 io.on('connection', (socket) => {
   socket.on('message', (data) => {
     console.log('JA SAM DATA', data);
-    return "CAO"
+    const bytes = CryptoJS.AES.decrypt(data, 'secret key 123');
+    const plaintext = bytes.toString(CryptoJS.enc.Utf8);
+    console.log('ja sam dekriptovana poruka', plaintext);
   });
   socket.on('my other event', (data) => {
     console.log(data);
